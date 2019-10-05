@@ -1,0 +1,8 @@
+{
+	"apps" : [{
+		"name"		: "server",
+		"script"	: "./server.js",
+		"watch"		: true,
+		"ignore_watch"	: ["server", "/routes/main"]
+	}]
+}
