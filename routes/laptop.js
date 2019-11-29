@@ -40,16 +40,20 @@ router.get('/',function(req, res){
         })
         query.$and = titlequery
     }
-
+    console.log(titlequery)
+    var start = (req.query.count-1) * 30
+    var end = (req.query.count) * 30
+    console.log(req.query.count)
     console.log('query : ',query)
     var dbsort = { time : -1 }
-    Client.connect('mongodb://dev:dev@13.125.4.46:27017', {useNewUrlParser : true}, function(err, doc){
+    console.log(`start = ${start}, end = ${end}`)
+    Client.connect('mongodb://dev:dev@13.125.4.46:27017/test', {useNewUrlParser : true}, function(err, doc){
         if(err){
             console.error('Connection failed..', err)
             return
         } else{
-            db = doc.db('test')
-            laptopColl = db.collection('laptop').find(query).sort(dbsort).limit(30).toArray(function(err,docs){
+            const db = doc.db('test')
+            laptopColl = db.collection('laptop').find(query).sort(dbsort).skip(start).limit(end).toArray(function(err,docs){
                 res.send(docs)
             })
         }
